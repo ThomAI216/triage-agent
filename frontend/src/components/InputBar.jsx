@@ -97,7 +97,7 @@ export default function InputBar({ onSend, disabled }) {
           className={`icon-btn mic-btn ${recording ? 'recording' : ''}`}
           onClick={toggleMic}
           disabled={disabled}
-          aria-label={recording ? 'Arrêter l\'enregistrement' : 'Parler'}
+          aria-label={recording ? "Arrêter l'enregistrement" : 'Parler'}
           title={recording ? 'Arrêter' : 'Dicter votre réponse'}
         >
           {recording ? '⏹' : '🎤'}

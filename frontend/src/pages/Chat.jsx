@@ -4,7 +4,7 @@ import QuickReplies from '../components/QuickReplies.jsx'
 import InputBar from '../components/InputBar.jsx'
 import EmergencyAlert from '../components/EmergencyAlert.jsx'
 
-const API = import.meta.env.VITE_API_URL || 'http://localhost:3001'
+const API = 'http://localhost:3001'
 
 /**
  * Chat page — the main triage conversation.
