@@ -92,7 +92,7 @@
 
 html, body {
   height: 100%;
-  overflow: hidden;
+  overflow: hidden; /* prevent desktop scroll; controlled inside */
 }
 
 body {
@@ -407,6 +407,7 @@ body {
   flex-direction: column;
   gap: var(--space-sm);
   scroll-behavior: smooth;
+  /* Extra bottom padding so last message isn't hidden behind input bar */
   padding-bottom: calc(var(--input-bar-height) + var(--space-md));
 }
 
@@ -553,6 +554,7 @@ body {
   align-items: flex-end;
   gap: var(--space-sm);
   box-shadow: 0 -4px 16px rgba(0,0,0,0.06);
+  /* Account for iOS safe area */
   padding-bottom: calc(var(--space-sm) + env(safe-area-inset-bottom));
 }
 
@@ -641,6 +643,14 @@ body {
 @keyframes pulse {
   0%, 100% { box-shadow: 0 0 0 4px rgba(220,38,38,0.2); }
   50%       { box-shadow: 0 0 0 8px rgba(220,38,38,0.08); }
+}
+
+.stt-ghost {
+  padding: var(--space-xs) var(--space-md);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  font-style: italic;
+  flex-shrink: 0;
 }
 
 /* ── Emergency Alert ─────────────────────────────────────── */
