@@ -74,6 +74,7 @@ router.post('/message', async (req, res) => {
       contextId: session.contextId,
       patientMessage: message.trim(),
       patientInfo: session.patientInfo,
+      // Pass consultation reason only on first message for context priming
       consultationReason: session.isFirstMessage ? session.patientInfo.reason : null,
     });
 

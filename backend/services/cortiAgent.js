@@ -121,7 +121,7 @@ export async function sendMessage({ contextId, patientMessage, patientInfo, cons
  */
 function parseAgentResponse(rawText) {
   // Try to extract JSON block if present
-  const jsonMatch = rawText.match(/{[\s\S]*}/);
+  const jsonMatch = rawText.match(/\{[\s\S]*\}/);
   if (jsonMatch) {
     try {
       const parsed = JSON.parse(jsonMatch[0]);
