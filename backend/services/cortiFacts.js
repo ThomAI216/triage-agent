@@ -16,6 +16,7 @@ export async function extractFacts(transcript, patientInfo) {
   const token = await getToken();
   const base = getApiBaseUrl();
 
+  // Build a single text document from the transcript
   const fullText = transcript
     .map(t => `${t.role === 'patient' ? 'Patient' : 'Assistant'}: ${t.text}`)
     .join('\n');
@@ -40,6 +41,7 @@ export async function extractFacts(transcript, patientInfo) {
   if (!res.ok) {
     const text = await res.text();
     console.error(`FactsR extraction failed (${res.status}): ${text}`);
+    // Return a minimal fallback so the session still completes
     return {
       error: true,
       rawTranscript: fullText,

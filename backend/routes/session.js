@@ -66,8 +66,10 @@ router.post('/message', async (req, res) => {
       return res.status(404).json({ error: 'Session not found or expired' });
     }
 
+    // Save patient message to transcript
     session.transcript.push({ role: 'patient', text: message.trim() });
 
+    // Call Corti Orchestrator
     const response = await sendMessage({
       contextId: session.contextId,
       patientMessage: message.trim(),
@@ -77,10 +79,12 @@ router.post('/message', async (req, res) => {
 
     session.isFirstMessage = false;
 
+    // Save agent response to transcript
     if (response.text) {
       session.transcript.push({ role: 'agent', text: response.text });
     }
 
+    // If session is complete, extract facts automatically
     if (response.sessionComplete) {
       try {
         const facts = await extractFacts(session.transcript, session.patientInfo);
@@ -116,6 +120,7 @@ router.post('/end', async (req, res) => {
       return res.status(404).json({ error: 'Session not found or expired' });
     }
 
+    // Extract facts if not already done
     if (!session.facts) {
       session.facts = await extractFacts(session.transcript, session.patientInfo);
     }
@@ -129,6 +134,7 @@ router.post('/end', async (req, res) => {
       facts: session.facts,
     };
 
+    // Clean up session from memory (log/store to DB in production)
     sessions.delete(sessionId);
     console.log(`[session] ${sessionId} ended and removed from memory`);
 

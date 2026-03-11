@@ -24,7 +24,7 @@ app.get('/health', (req, res) => {
 
 // Start
 app.listen(PORT, () => {
-  console.log(`\u2705 Convent Clinic Triage backend running on http://localhost:${PORT}`);
+  console.log(`✅ Convent Clinic Triage backend running on http://localhost:${PORT}`);
   console.log(`   Environment: ${process.env.CORTI_ENVIRONMENT || '(not set)'}`);
   console.log(`   Tenant:      ${process.env.CORTI_TENANT || '(not set)'}`);
 });

@@ -29,6 +29,7 @@ export async function startSession(patientInfo) {
   const token = await getToken();
   const base = getApiBaseUrl();
 
+  // Create a new context with initial patient info
   const res = await fetch(`${base}/v1/agentic/contexts`, {
     method: 'POST',
     headers: {
@@ -62,10 +63,12 @@ export async function sendMessage({ contextId, patientMessage, patientInfo, cons
   const token = await getToken();
   const base = getApiBaseUrl();
 
+  // Build the parts array — text message + optional data context
   const parts = [
     { type: 'text', text: patientMessage },
   ];
 
+  // If this is the first message and we have a consultation reason, attach it as data
   if (consultationReason) {
     parts.push({
       type: 'data',
@@ -104,10 +107,12 @@ export async function sendMessage({ contextId, patientMessage, patientInfo, cons
 
   const data = await res.json();
 
+  // Extract the assistant message text
   const rawText = data.message?.parts?.find(p => p.type === 'text')?.text
     || data.choices?.[0]?.message?.content
     || '';
 
+  // Try to parse JSON from the response if the model returned structured data
   return parseAgentResponse(rawText);
 }
 
@@ -115,7 +120,8 @@ export async function sendMessage({ contextId, patientMessage, patientInfo, cons
  * Parses the agent response which may be plain text or structured JSON.
  */
 function parseAgentResponse(rawText) {
-  const jsonMatch = rawText.match(/\{[\s\S]*\}/);
+  // Try to extract JSON block if present
+  const jsonMatch = rawText.match(/{[\s\S]*}/);
   if (jsonMatch) {
     try {
       const parsed = JSON.parse(jsonMatch[0]);
